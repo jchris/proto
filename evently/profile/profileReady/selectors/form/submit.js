@@ -8,7 +8,8 @@ function() {
   $$(this).app.db.saveDoc(doc, {
     success : function() {
       $("[name=message]", form).val("");
-    }
+    },
+    ensure_full_commit : false
   });
   return false;
 };
