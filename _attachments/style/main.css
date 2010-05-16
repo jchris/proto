@@ -28,6 +28,10 @@ body {
   float:left;
 }
 
+#items img.attachment {
+  width:500px;
+}
+
 #sidebar {
   border:4px solid #dfd;
   padding:8px;
