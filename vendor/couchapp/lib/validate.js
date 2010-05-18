@@ -1,0 +1,3 @@
+exports.isAdmin = function(userCtx) {
+  
+}
