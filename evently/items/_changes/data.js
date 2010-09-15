@@ -1,6 +1,5 @@
 function(data) {
   var db = $$(this).app.db;
-  // $.log(data)
   function attachments(doc) {
     var as = [], a = doc._attachments;
     if (a) {
