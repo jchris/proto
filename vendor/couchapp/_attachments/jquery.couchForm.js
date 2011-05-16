@@ -1,3 +1,5 @@
+// I think this should go in jquery.couch.js
+
 (function($) {
     $.fn.couchForm = function(opts) {
         opts = opts || {};
