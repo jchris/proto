@@ -6,11 +6,8 @@
 // 
 // Example Usage (loggedIn and loggedOut callbacks are optional): 
 //    $("#myprofilediv").couchProfile({
-//        loggedIn : function(userCtx) {
-//            alert("hello "+userCtx.name);
-//        },
-//        loggedOut : function() {
-//            alert("bye bye");
+//        profileReady : function(profile) {
+//            alert("hello, do you look like this? "+profile.gravatar_url);
 //        }
 //    });
 
@@ -35,7 +32,6 @@
                 if (profile) {
                     profile.name = userDoc.name;
                     profileReady(profile);
-                    if (opts.profileReady) {opts.profileReady(profile)};
                 } else {
                     newProfile(userCtx)
                 }
@@ -44,6 +40,7 @@
         
         function profileReady(profile) {
             widget.html($.mustache(templates.profileReady, profile));
+            if (opts.profileReady) {opts.profileReady(profile)};
         };
         
         function storeProfileOnUserDoc(newProfile) {
@@ -66,10 +63,10 @@
         
         function newProfile(userCtx) {
             widget.html($.mustache(templates.newProfile, userCtx));
-            widget.find("form").submit(function() {
+            widget.find("form").submit(function(e) {
+                e.preventDefault();
                 var form = this;
-                requires("vendor/couchapp/md5.js", function() {
-                    // will never fail, md5 might be null.
+                requires("script/md5.js", function() {
                     var name = $("input[name=userCtxName]",form).val();
                     var newProfile = {
                       rand : Math.random().toString(), 
@@ -78,8 +75,8 @@
                       url : $("input[name=url]",form).val()
                     };
                     // setup gravatar_url
-                    if (md5) {
-                      newProfile.gravatar_url = 'http://www.gravatar.com/avatar/'+md5.hex(newProfile.email || newProfile.rand)+'.jpg?s=40&d=identicon';    
+                    if (hex_md5) {
+                      newProfile.gravatar_url = 'http://www.gravatar.com/avatar/'+hex_md5(newProfile.email || newProfile.rand)+'.jpg?s=40&d=identicon';    
                     }
                     storeProfileOnUserDoc(newProfile);
                 });
