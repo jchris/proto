@@ -2,7 +2,6 @@
 
 body {
   font:1em Helvetica, sans-serif;
-  padding:4px;
 }
 
 h1 {
@@ -70,6 +69,6 @@ div.avatar img {
   height : 40px;
 }
 
-#items ul {
+ul {
   list-style: none;
 }
