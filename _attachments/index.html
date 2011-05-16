@@ -12,27 +12,52 @@
     <div id="profile">
 
     </div>
-    <div id="items"></div>
+    <div id="content"></div>
 
     <div id="sidebar">
       <p>Edit welcome message.</p>
-      <p>Ideas: You could easily turn this into a photo sharing app, or a grocery list, or a chat room.</p>
+      <p>Ideas: You could easily turn this into a photo sharing app, 
+          or a grocery list, or a chat room.</p>
     </div>
   </body>
   <script src="vendor/couchapp/loader.js"></script>
   <script src="script/jquery.couchLogin.js"></script>
-  <script type="text/javascript" charset="utf-8">
-    $.couch.app(function(app) {
-        $("#profile").evently("profile", app);
-        $("#items").evently("items", app);
-        $("#account").couchLogin({
-            loggedIn : function(r) {
-                $("#profile").trigger("loggedIn", [r]);
-            },
-            loggedOut : function() {
-                $("#profile").trigger("loggedOut");
-            }
-        });
-    });
+  <script src="script/jquery.couchProfile.js"></script>
+  <script src="script/jquery.couchForm.js"></script>
+  <script src="vendor/couchapp/jquery.mustache.js"></script>
+
+  <script id="new-message" type="text/x-mustache" charset="utf-8">
+      <div class="avatar">
+        {{#gravatar_url}}<img src="{{gravatar_url}}"/>{{/gravatar_url}}
+        <div class="name">
+          {{name}}
+        </div>
+      </div>
+      <form id="create-message">
+        <label>New message from {{nickname}}: <input type="text" name="message" size=60 value=""></label>
+      </form>
+      <div style="clear:left;"></div>
   </script>
+
+  <script id="recent-messages" type="text/x-mustache" charset="utf-8">
+        <h3>Recent Messages</h3>
+        <ul id="items">
+          {{#items}}
+            <li>
+              <div class="avatar">
+                {{#gravatar_url}}<img src="{{gravatar_url}}" alt="{{name}}"/>{{/gravatar_url}}
+                <div class="name">
+                  {{nickname}}
+                </div>
+              </div>
+              <p>{{message}}</p>
+              <div style="clear:left;"></div>
+            </li>
+          {{/items}}
+        </ul>
+        <p><em>Protip:</em> If you setup continuous replication between this database and a remote one, this list will reflect remote changes in near real-time.</p>
+        <p>This would be a good place to add pagination.</p>
+  </script>
+  <script src="script/app.js"></script>
+
 </html>
