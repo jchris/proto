@@ -64,22 +64,20 @@
         function newProfile(userCtx) {
             widget.html($.mustache(templates.newProfile, userCtx));
             widget.find("form").submit(function(e) {
-                e.preventDefault();
-                var form = this;
-                requires("script/md5.js", function() {
-                    var name = $("input[name=userCtxName]",form).val();
-                    var newProfile = {
-                      rand : Math.random().toString(), 
-                      nickname : $("input[name=nickname]",form).val(),
-                      email : $("input[name=email]",form).val(),
-                      url : $("input[name=url]",form).val()
-                    };
-                    // setup gravatar_url
-                    if (hex_md5) {
-                      newProfile.gravatar_url = 'http://www.gravatar.com/avatar/'+hex_md5(newProfile.email || newProfile.rand)+'.jpg?s=40&d=identicon';    
-                    }
-                    storeProfileOnUserDoc(newProfile);
-                });
+            e.preventDefault();
+            var form = this;
+                var name = $("input[name=userCtxName]",form).val();
+                var newProfile = {
+                  rand : Math.random().toString(), 
+                  nickname : $("input[name=nickname]",form).val(),
+                  email : $("input[name=email]",form).val(),
+                  url : $("input[name=url]",form).val()
+                };
+                // setup gravatar_url if md5.js is loaded
+                if (hex_md5) {
+                  newProfile.gravatar_url = 'http://www.gravatar.com/avatar/'+hex_md5(newProfile.email || newProfile.rand)+'.jpg?s=40&d=identicon';    
+                }
+                storeProfileOnUserDoc(newProfile);
               return false;
             });
         };
